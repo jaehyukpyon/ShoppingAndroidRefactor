@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.shoppingandroidapp">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!--application안에는 애플리케이션을 실행할 때 함께 실행시킬 요소를
+    선언해야 한다. 필수 요소이므로 반드시 추가해야 한다.
+    allowbackup이 true라면 사용자 데이터를 google 드라이브에 25MB까지 자동으로 backup을 하게 된다.
+    backup한 데이터로 복원을 할 수도 있게 된다
+    label >> app의 name
+    theme >> app 전체에 적용되는 Theme, 우리는 NoActionBar
+
+    application 태그 내에는 여러 구성 요소들을 선언할 수 있다
+
+    activity는 name 속성에서 activity class 명을 정의해야 하고
+    exported의 의미는 다른 구성 요소로 이 activity를 실행할 수 있는지 여부
+    intent-filter가 의미하는 바는 MainActivity를 실행하는 launcher activity로 사용하겠다는 의미
+    그래서 exported의 값은 반드시 true여야 한다
+    -->
+    <application
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.ShoppingAndroid">
+
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.ShoppingAndroid.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"></activity>
+    </application>
+
+</manifest>

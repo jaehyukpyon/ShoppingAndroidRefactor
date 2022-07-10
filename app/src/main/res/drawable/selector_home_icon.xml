@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--
+    item을 추가해야 하는데, item은 각각 필수적으로 drawable 리소스를 갖고 있어야 하며
+    state_selected를 true로 설정한다. 즉 사용자가 이 컴포넌트를 선택 했을 때 on 상태의 icon을 보여준다는 의미.
+    이때 state라 함은, UI 컴포넌트가 가질 수 있는 상태.-->
+    <item android:drawable="@drawable/ic_tabbar_home_on" android:state_selected="true" />
+    <item android:drawable="@drawable/ic_tabbar_home_off" />
+</selector>

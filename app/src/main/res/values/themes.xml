@@ -1,0 +1,23 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+
+    <!--ActionBar는 AppBar를 이전 버전에서 부르던 이름
+        이것은 AppBar를 이 Theme 안에서 포함하고 있다는 의미-->
+    <style name="Theme.ShoppingAndroid" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/shoppi_purple</item>
+        <item name="colorPrimaryVariant">@color/shoppi_gradient_purple</item>
+        <item name="colorOnPrimary">@color/shoppi_white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/shoppi_pink_01</item>
+        <item name="colorSecondaryVariant">@color/shoppi_pink_02</item>
+        <item name="colorOnSecondary">@color/shoppi_black_01</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="Theme.ShoppingAndroid.Splash">
+        <item name="android:windowBackground">@drawable/background_splash_screen</item>
+    </style>
+</resources>

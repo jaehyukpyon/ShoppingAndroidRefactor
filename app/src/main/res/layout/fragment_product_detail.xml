@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--Toolbar를 AppBarLayout으로 감싸야 한다
+        Toolbar의 배경색인 보라색을 해결하자 >> Appbarlayout에 backgroundcolor를 변경한다.
+        toolbar와 appbarlayout 중 appbarlayout이 감싸는 container이므로,
+        container에 계속 위젯이 추가될 수 있어서 이 컨테이너의 backgroundcolor를 변경하기로 결정.
+        -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/shoppi_white">
+
+        <!--scroll|enterAlways 속성을 같이 동작하게끔 or 연산자로 연결해주면
+        사용자가 아래 아이템을 보기 위해 위로 스크롤하면 Toolbar도 사라지고,
+        다시 위에 아이템을 보려고 아래로 스크롤하면 다시 나타난다.
+        navigationIcon을 설정해도 아이콘이 보이지 않는다. >> 속성을 수정해야 돼
+        Toolbar는 이전의 container가 constraintlayout이었기 때문에 constraint 속성들을 작성했다(constraintend, constraintstart, constrainttop)
+        하지만 이제 부모의 container가 appbarlayout으로 변경됐기 때문에 width도 0dp가 아닌, match_parent가 돼야 하고,
+        constraint 조건들은 다 삭제한다-->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_product_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:navigationIcon="@drawable/ic_gnb_back" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!--이제 NestedScrollView의 Containor가 ConstraintLayout이 아니기 때문에
+        0dp가 아닌 matchparent로 width로 변경해야 한다
+        width의 constraint 였던 constraintstart, constraintend를 삭제
+        height도 마찬가지로, 이제 root container가 constraintlayout이 아니므로 matchparent로 변경하고,
+        constraint 조건들을 삭제한다. (constraintbottom, constrainttop)
+        또한, 스크롤의 시작이 appbar의 아래에 위치해야 하는데, 가장 rootview의 시작점과 맞게끔 되어 있다.
+        CoordinatorLayout 내부에서 NestedScrollView의 scroll이 이전과 동일하게 동작하려면
+        layout_behavior를 설정해야 한다.-->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <!--NestedScrollView의 가장 중요한 제약 조건은 자식 뷰로 추가되는 뷰들을 감싸주는 부모 컨테이너가 필요
+            그 container 역할을 하는 constraintlayout을 추가...-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!--이미지의 layout_width설정 시,
+                이미지의 원래 크기를 나타내는 것이 아닌 제약조건을 추가하고,
+                그 크기만큼 최대한 늘릴 것이므로 0dp로 설정한다.
+                세로 길이도 가로 길이가 늘어난 만큼 똑같이 늘릴 것이므로, 0dp로 설정한다.
+                height크기를 width의 크기만큼 1대1로 늘려주기 위해 dimensionratio 속성에서
+                width를 기준으로 1대1 비율로 늘려줘 라고 선언
+                마진 값을 양 끝에 주려면, marginstart 및 marginend를 사용-->
+            <ImageView
+                android:id="@+id/iv_product_thumbnail"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="@string/description_product_thumbnail"
+                android:src="@drawable/img_pdp_top_01"
+                app:layout_constraintDimensionRatio="w, 1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!--가로의 길이를 constraint가 지정된 만큼 최대한 늘릴 것이므로 0dp로 설정합니다-->
+            <TextView
+                android:id="@+id/tv_product_brand_name"
+                style="@style/TextSubtitle3.Grey03"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                android:text="twg. official"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_product_thumbnail" />
+
+            <TextView
+                android:id="@+id/tv_product_label"
+                style="@style/TextMedium"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                android:text="[19차 리오더] 페이크 레더 숏 테일리 자켓 블랙 (1 Color)"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_product_brand_name" />
+
+            <TextView
+                android:id="@+id/tv_product_discount_rate"
+                style="@style/TextMedium.Purple.Bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:text="10%"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_product_label" />
+
+            <TextView
+                android:id="@+id/tv_product_discount_price"
+                style="@style/TextMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="99,800원"
+                app:layout_constraintBottom_toBottomOf="@id/tv_product_discount_rate"
+                app:layout_constraintStart_toEndOf="@id/tv_product_discount_rate"
+                app:layout_constraintTop_toTopOf="@id/tv_product_discount_rate" />
+
+            <!--아래의 textview의 baseline을 바로 위 textview랑 맞춰라.
+                아래 baseline 속성이 없다면, 아래의 textview는 부모의 맨 꼭대기로 붙는다. 즉 높이가 맨 위로 올라간다(y-axis)-->
+            <TextView
+                android:id="@+id/tv_product_price"
+                style="@style/TextSubtitle2.Grey05"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:text="110,000원"
+                android:textSize="14sp"
+                app:layout_constraintBaseline_toBaselineOf="@id/tv_product_discount_price"
+                app:layout_constraintStart_toEndOf="@id/tv_product_discount_price" />
+
+            <View
+                android:id="@+id/view_divider_product"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:background="#EEEFF1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_product_price" />
+
+            <TextView
+                android:id="@+id/tv_product_detail_image_title"
+                style="@style/TextSubtitle3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/title_product_detail_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_divider_product" />
+
+            <!--scaleType의 centercrop은 이미지가 이미지뷰의 사이즈보다 클 때는
+                이미지의 중앙에 맞추어서 이미지 사이즈를 초과하는 부분은 crop 하는 속성
+                막약에 이미지의 크기가 이미지뷰보다 작을 경우 가로나 세로 중에서 가장 큰 길이에 기준을 맞추어서
+                확대를 한 다음에 초과하는 부분은 crop 하는 속성-->
+            <ImageView
+                android:id="@+id/iv_product_detail_image"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="50dp"
+                android:contentDescription="@string/description_product_detail_image"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_pdp_top_01"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_product_detail_image_title" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

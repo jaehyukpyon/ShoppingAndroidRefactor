@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--HomeFragment에서 어떤 상품을 선택하면 상품 상세 화면으로의 연결을 구현하겠다고 했는데,
+    버튼을 임의로 추가해서 버튼 클릭 시 상세화면으로 이동을 구현할 것.-->
+    <!--<Button
+        android:id="@+id/btn_enter_product_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="상품 상세"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />-->
+
+
+    <!--상위 layout이 constraintlayout이 아니기 때문에 0dp는 사용 불가-->
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!--Toolbar는 extends ViewGroup >> ViewGroup을 상속받은 클래스는, layout에 하위 뷰를 추가가능
+            app:contentInsetStart="0dp" Toolbar에서 default로 설정 돼 있는 padding 값 없애기
+            padding은 view의 내부에 content와의 간격을 주고 싶을 때 정의하는 값. TextView의 content는 text이므로,
+            TextView의 size는 그대로 유지된 채 text가 시작하는 지점이 달라진 것
+            android:layout_gravity >> 상위 layout에서 나의 위치를 배치할 때 사용하는 속성-->
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/shoppi_white"
+            app:contentInsetStart="0dp"
+            app:layout_scrollFlags="scroll|enterAlways">
+
+            <TextView
+                android:id="@+id/toolbar_home_title"
+                style="@style/TextHeadLine5.Black02.Bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="72dp"
+                android:maxLines="2"
+                android:paddingStart="16dp"
+                android:paddingTop="32dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="24dp"
+                tools:text="eggjam82님, 이런\n상품 어때요?" />
+
+            <!--
+            appbar의 imagieview 영역을 image에 크기를 모두 그대로 그리는 것 보대 최대 68dp까지만 노출하기 위해
+            android:scaleType="center" >> image 리소스의 size가 68dp보다 큰 경우에, 최대 68dp 크기만큼만 노출하고,
+            중앙에 배치를 하려면 center 값 할당 필요-->
+            <ImageView
+                android:id="@+id/toolbar_home_icon"
+                android:layout_width="68dp"
+                android:layout_height="68dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="4dp"
+                android:scaleType="center"
+                tools:src="@drawable/ic_gnb_back" />
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <!--NestedScrollView의 크기는 둘 다 match_parent인데 b/c CoordinatorLayout이 AppBarLayout을 그리고(draw),
+        나머지 영역을 다 NestedScrollView의 영역으로 채울 것이므로, height를 wrap_content가 아닌 match_parent로 지정-->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <!--container 역할을 할 ConstraintLayout 추가-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!--ViewPager2에 앞서 만들었던 item_home_banner.xml을 보여주려면 어떻게 할까?
+                구현해야 하는 클래스가 있다. >> HomeBannerAdapter-->
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewpager_home_banner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!--TabLayout을 이용하여 dot layout을 구성-->
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/viewpager_home_banner_indicator"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/viewpager_home_banner"
+                app:tabBackground="@drawable/selector_viewpager_indicator"
+                app:tabGravity="center"
+                app:tabIndicatorHeight="0dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

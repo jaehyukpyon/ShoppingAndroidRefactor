@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/navigation_home">
+
+    <!--아래 fragment 태그의 id는 이전의 bottom navigation view의 menu 아이디와 동일하게 변경해야 한다.
+        즉, menu/navigation_main_menu.xml에 설정된 <item>태그 안의 android:id태그와 아래의 id와 일치해야 합니다.
+        <item> 태그를 클릭할 때 마다 정해진 fragment로의 전환이 이루어 져아 한다
+        즉 bottomnavigationview와 navigation graph간의 연동이 이루어 져야 합니다
+        navigation component는 이러한 연동을 지원하기 위해 bottomnavigation의 menu item의 id와 navigation graph의 destination id를 일치시켜야 한다
+
+        이제 이렇게 만든 navigation graph를 MainActivity의 bottomnavigationview랑 연동 시키는 작업이 남음
+        >> 이를 위해, NavHostFragments 발견할 수 없고, 이 navigation graph는 navhostfragment에서 참조 하는 형태로 정의를 해야 접근할 수 있다 (design tab에 추가한 세 개의 프레그먼트 그림)
+
+        fragment는 단독으로 존재할 수 없다. >> fragment를 inflate할 host activity와 fragment의 container 역할을 할 host fragment가 필요하다
+        NavHostFragment는 navigation component에서 만든 host fragment이다
+        fragment의 container 역할을 하는 host fragment는 activity_main.xml에서 내가 이미 추가해 놓음
+        FragmentContainerView 태그로 이미 추가 해놓음
+        navigation component를 활용해서 화면 전환을 구현하려면 android:name 속성에 navigation component의 androidx.navigation.fragment.NavHostFragment로 변경 해야 한다
+
+        아직 해야할 작업이 남았는데, NavHostFragment에서 navigation graph를 참조하도록 정의 해야 한다. 이를 위해 app:navGraph="@navigation/main_navigation" 이 속성을 추가해야 한다.
+        즉, 이 파일 navigation file에 대한 참조를 추가 해야 한다. >> 이렇게 되면 NavHostFragment에서 navigation graph에 대한 참조를 얻게 된다.
+        그리고 속성을 하나 더 정의해야 하는데, NavHostFragment는 fragment 전환을 관리하는 container이다.
+        그래서 사용자가 back 버튼을 클릭했을 때, 이전 화면으로 돌어가는 것에 대한 처리를 담당해야 한다.
+        그러려면, back 버튼 이벤트를 중간에 받아 와서 처리할 것이다 라고 정의를 해야 한다.
+        이에 대한 속성이, app:defaultNavHost="true"..!!!
+
+
+        이제 마지막 작업인, bottom navigation view와 fragmentcontainerview를 연결시키는 작업이 남음
+
+        이는 MainActivity 코드에서 처리해야 한다.
+        -->
+   <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.example.shoppingandroidapp.HomeFragment"
+        android:label="HomeFragment" >
+       <action
+           android:id="@+id/action_home_to_product_detail"
+           app:destination="@id/navigation_product_detail" />
+   </fragment>
+    <fragment
+        android:id="@+id/navigation_category"
+        android:name="com.example.shoppingandroidapp.CategoryFragment"
+        android:label="CategoryFragment" />
+    <fragment
+        android:id="@+id/navigation_cart"
+        android:name="com.example.shoppingandroidapp.CartFragment"
+        android:label="CartFragment" />
+    <fragment
+        android:id="@+id/navigation_product_detail"
+        android:name="com.example.shoppingandroidapp.ProductDetailFragment"
+        android:label="ProductDetailFragment" />
+</navigation>

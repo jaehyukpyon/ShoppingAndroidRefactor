@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <!--HostFragmentLayout 역할을 할 FragmentContainerView를 추가한다.
+        그리고 FragmentContainerView에 추가할 fragment가 필요하다.
+        splash 화면이 사라지고, 나타날 화면을 홈 화면으로 부를 것이므로, HomeFragment를 추가한다.-->
+    <!--HomeFragment를 main activity 에서 inflate 해야 합니다.
+        그 방법은, FragmentContainerView에 처음에 inflate할 fragment를 name 속성을 활용해서 지정해주면 OK
+        FragmentContainerView는 반드시 id를 지정해야 한다.-->
+    <!--activity의 layout에서는 fragment를 inflate시킬 수 있는 container가 필요하다.
+        이것을 host fragment 역할을 한다 라고도 표현한다. 이러한 역할을 하는 FragmentContainerView 위젯을 사용해야 한다
+        그래서 처음에 inflate 시킬 fragment를 name 속성을 활용해서 지정할 수 있다.-->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/container_main"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toTopOf="@id/navigation_main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/main_navigation" />
+
+    <!--bottomnavigation에 destination을 추가 할 때, menu 속성을 통해서 할당한다. (resource folder안에서 생성)-->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigation_main"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/navigation_main_menu" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
