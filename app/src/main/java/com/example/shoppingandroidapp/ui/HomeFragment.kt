@@ -1,4 +1,4 @@
-package com.example.shoppingandroidapp
+package com.example.shoppingandroidapp.ui
 
 import android.os.Bundle
 import android.util.Log
@@ -8,7 +8,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
+import com.example.shoppingandroidapp.*
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
@@ -16,6 +19,9 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 class HomeFragment : Fragment() {
+
+    /*viewModel 변수를 추가한다.*/
+    private val viewModel: HomeViewModel by viewModels()
 
     // Fragment도 Activity와 동일하게 layout을 inflate하는 단계가 있음. fragment는 그 과정을 onCreateView callback에서 진행한다.
     // 이를 통해 fragment의 life cycle callback은 activity의 life cycle callback과 약간 차이점 존재
@@ -144,16 +150,43 @@ class HomeFragment : Fragment() {
             val gson = Gson()
             val homeData = gson.fromJson(homeJsonString, HomeData::class.java)
 
-            toolBarTitle.text = homeData.title.text
+            /*viewModel.title.observe(viewLifecycleOwner, object : Observer<Title> {
+                override fun onChanged(t: Title?) {
+                    toolBarTitle.text = title.text
+                    GlideApp.with(HomeFragment.this)
+                        .load(homeData.title.iconUrl)
+                        .into(toolbarIcon)
+                }
+            })*/
+
+            // 앞으로 ViewModel이 State Holder의 역할을 하면서, Data를 저장하고 관리해야 한다.
+            // 그래서 title은 fragment에서 직접 요청하는 것이 아니라, ViewModel의 title을 참조하고, 이를 LiveData가 제공하는 observer 메서드를 통해서,
+            // data가 변경 되었을 때 어떠한 처리를 할 것인지 HomeFragment에서 구현해야 한다. 먼저 첫 버째 인자로 lifecycleowner를 전달해야 하는데,
+            // fragment는 viewLifecycleOwner를 통해 참조를 얻을 수 있다. 두 번째 인자는 Observer를 구현한 클래스를 전달해야 한다
+            viewModel.title.observe(viewLifecycleOwner) { title -> // Title data가 변경되면, 현재 이 block이 호출 된다
+                // 그러면 이 block안에서 view를 update 하는 logic을 구현하면 OK
+                toolBarTitle.text = title.text
+                GlideApp.with(this)
+                    .load(title.iconUrl)
+                    .into(toolbarIcon)
+            }
+
+            /*toolBarTitle.text = homeData.title.text
             GlideApp.with(this)
                 .load(homeData.title.iconUrl)
-                .into(toolbarIcon)
+                .into(toolbarIcon)*/
 
-            viewpager.adapter = HomeBannerAdapter().apply {
-                // submitList의 인자로 Banner의 List를 전달하면 된다.
-                // Banner의 List data를 가지고 오기 위해서, home.json file의 구조를 보자 >> "top_banners" key로 json array를 가져와야 한다
-                this.submitList(homeData.topBanners)
+            viewModel.topBanners.observe(viewLifecycleOwner) { banners ->
+                viewpager.adapter = HomeBannerAdapter().apply {
+                    this.submitList(banners)
+                }
             }
+
+//            viewpager.adapter = HomeBannerAdapter().apply {
+//                // submitList의 인자로 Banner의 List를 전달하면 된다.
+//                // Banner의 List data를 가지고 오기 위해서, home.json file의 구조를 보자 >> "top_banners" key로 json array를 가져와야 한다
+//                this.submitList(homeData.topBanners)
+//            }
 
             val pageWidth = resources.getDimension(R.dimen.viewpager_item_width)
             val pageMargin = resources.getDimension(R.dimen.viewpager_item_margin)

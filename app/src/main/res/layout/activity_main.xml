@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
 
     <!--HostFragmentLayout 역할을 할 FragmentContainerView를 추가한다.
         그리고 FragmentContainerView에 추가할 fragment가 필요하다.

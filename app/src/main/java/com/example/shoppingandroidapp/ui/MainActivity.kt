@@ -1,10 +1,11 @@
-package com.example.shoppingandroidapp
+package com.example.shoppingandroidapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.shoppingandroidapp.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 /*
