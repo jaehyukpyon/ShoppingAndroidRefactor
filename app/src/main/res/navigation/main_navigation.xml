@@ -33,7 +33,7 @@
         -->
    <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.shoppingandroidapp.ui.HomeFragment"
+        android:name="com.example.shoppingandroidapp.ui.home.HomeFragment"
         android:label="HomeFragment" >
        <action
            android:id="@+id/action_home_to_product_detail"

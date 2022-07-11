@@ -1,5 +1,6 @@
-package com.example.shoppingandroidapp
+package com.example.shoppingandroidapp.model
 
+import com.example.shoppingandroidapp.Banner
 import com.google.gson.annotations.SerializedName
 
 data class HomeData(

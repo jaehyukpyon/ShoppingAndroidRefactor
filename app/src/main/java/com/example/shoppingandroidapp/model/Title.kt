@@ -1,4 +1,4 @@
-package com.example.shoppingandroidapp
+package com.example.shoppingandroidapp.model
 
 import com.google.gson.annotations.SerializedName
 

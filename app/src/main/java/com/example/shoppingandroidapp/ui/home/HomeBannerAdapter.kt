@@ -1,4 +1,4 @@
-package com.example.shoppingandroidapp
+package com.example.shoppingandroidapp.ui.home
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -10,6 +10,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.shoppingandroidapp.Banner
+import com.example.shoppingandroidapp.GlideApp
+import com.example.shoppingandroidapp.R
 import java.text.DecimalFormat
 import kotlin.math.roundToInt
 
@@ -17,7 +20,9 @@ import kotlin.math.roundToInt
 * 클래스 명에 Adapter가 붙은 이유는, ViewPager2에 추가할 layout을 구현하기 위해서 ListAdapter 클래스를 상속받을 것이라...
 * ListAdapter<T, VH>  -->> T는 layout에 표현할 data의 type을 의미하고, VH는 RecyclerView.ViewHolder 클래스의 subclass를 생성해서 전달해야 함
 * >> HomeBannerAdapter는 전달해야 되는 객체의 type은 home.json으로 돌아가서 확인해 보면, top_banners 배열(array)에 있는, JSON object 객체 (Banner 클래스를 직접 생성하야 함)...*/
-class HomeBannerAdapter : ListAdapter<Banner, HomeBannerAdapter.HomeBannerViewHolder>(BannerDiffCallback()) {
+class HomeBannerAdapter : ListAdapter<Banner, HomeBannerAdapter.HomeBannerViewHolder>(
+    BannerDiffCallback()
+) {
     /*
     * ListAdapter의 역할은, data의 list를 받아서, 0번째부터 순차적으로 view holder와 binding을 한다
     * 그럼 이때, layout은 그대로 유지한 채로, data만 업데이트 된다면 성능상의 이점 존재

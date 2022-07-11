@@ -1,12 +1,13 @@
-package com.example.shoppingandroidapp.ui
+package com.example.shoppingandroidapp.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.shoppingandroidapp.Banner
-import com.example.shoppingandroidapp.Title
+import com.example.shoppingandroidapp.model.Title
+import com.example.shoppingandroidapp.repository.HomeRepository
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(private val homeRepository: HomeRepository) : ViewModel() {
     /*
     * UI 레이어에서 Status Holders가 구현해야 하는 내용을 ViewModel의 subclass로 이동시켜야 한다
     * >> 해당 부분은 HomeFragment의 코드에서 AssetLoader에 JSON format의 데이터를 요청하고, HomeData객체로 변환한 부분
@@ -39,8 +40,16 @@ class HomeViewModel : ViewModel() {
     private val _topBanners = MutableLiveData<List<Banner>>()
     val topBanners: LiveData<List<Banner>> = _topBanners
 
-    private fun loadHomeData() {
+    init {
+        loadHomeData()
+    }
 
+    private fun loadHomeData() {
+        val homeData = homeRepository.getHomeData()
+        homeData?.let { homeData ->
+            _title.value = homeData.title
+            _topBanners.value = homeData.topBanners
+        }
     }
 
 }
